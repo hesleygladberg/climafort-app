@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* LIGHT MODE RESTORED (Clean, White, Professional) */
+    --background: 210 20% 98%;
+    /* Soft White/Grey */
+    --foreground: 222 47% 11%;
+    /* Deep Navy Text */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary: Original Royal Blue */
+    --primary: 224 76% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 224 76% 95%;
+    --accent-foreground: 224 76% 40%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 76% 40%;
+
+    --radius: 1.5rem;
+    /* 24px - Soft Extremes */
+  }
+
+  .dark {
+    /* GLACIAL MINIMALIST - DARK MODE (Deepest Abyss, Bioluminescence) */
+    --background: 224 71% 4%;
+    /* Deepest Navy (Almost Black) */
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 7%;
+    /* Dark Blue-Grey */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary: Neon Cyan */
+    --primary: 186 100% 50%;
+    /* Electric Cyan */
+    --primary-foreground: 224 71% 4%;
+
+    --secondary: 217 33% 12%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 12%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 186 100% 50%;
+    /* Cyan Glow */
+    --accent-foreground: 224 71% 4%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 12%;
+    --input: 217 33% 12%;
+    --ring: 186 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/20 selection:text-primary;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* Headings use Outfit for geometric feel */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .glass-panel {
+    @apply bg-background/60 backdrop-blur-xl border border-white/10 dark:border-white/5 shadow-xl;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full hover:bg-primary/50 transition-colors;
+}
