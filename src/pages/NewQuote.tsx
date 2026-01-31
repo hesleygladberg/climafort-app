@@ -240,6 +240,13 @@ export default function NewQuote() {
   };
 
   const handleNext = () => {
+    if (currentStep === 'client') {
+      if (!clientName.trim() || !clientPhone.trim()) {
+        toast.error('Informe o nome e o telefone do cliente');
+        return;
+      }
+    }
+
     const currentIndex = steps.findIndex(s => s.key === currentStep);
     if (currentIndex < steps.length - 1) {
       setCurrentStep(steps[currentIndex + 1].key);
@@ -255,8 +262,8 @@ export default function NewQuote() {
 
   const handleSave = () => {
     // Validation
-    if (!clientName.trim()) {
-      toast.error('Informe o nome do cliente');
+    if (!clientName.trim() || !clientPhone.trim()) {
+      toast.error('Informe o nome e o telefone do cliente');
       document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
       setCurrentStep('client');
       return;
