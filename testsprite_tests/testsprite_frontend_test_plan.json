@@ -1,0 +1,462 @@
+[
+  {
+    "id": "TC001",
+    "title": "User Registration with Valid Data",
+    "description": "Ensure that a new user can register successfully using valid and complete information.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to registration page"
+      },
+      {
+        "type": "action",
+        "description": "Fill in the registration form with valid username, email, and password"
+      },
+      {
+        "type": "action",
+        "description": "Submit the registration form"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify user is registered successfully and redirected appropriately"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "User Registration with Missing Mandatory Fields",
+    "description": "Verify registration form validation when mandatory fields are empty or missing.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to registration page"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit the registration form leaving mandatory fields blank"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that proper validation messages are shown and registration is blocked"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "User Login with Valid Credentials",
+    "description": "Check that a user can successfully log in with correct username/email and password.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter valid username/email and password"
+      },
+      {
+        "type": "action",
+        "description": "Click login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that login is successful and the dashboard page is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "User Login with Invalid Credentials",
+    "description": "Verify login failure with incorrect username/email or password and corresponding error handling.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to login page"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid username/email or password"
+      },
+      {
+        "type": "action",
+        "description": "Click login button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify login is rejected and an appropriate error message is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Dashboard Loads and Displays Key Elements",
+    "description": "Ensure the dashboard loads correctly after login and all relevant summaries and quick links are visible.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in with valid credentials"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard page loads without errors"
+      },
+      {
+        "type": "assertion",
+        "description": "Check that key summaries and navigation links are present and visible"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Create New Quote with Valid Materials and Services",
+    "description": "Verify that a user can create a new quote adding materials and services with correct data and see accurate calculations.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to New Quote page"
+      },
+      {
+        "type": "action",
+        "description": "Fill quote form with valid customer and quote details"
+      },
+      {
+        "type": "action",
+        "description": "Add multiple materials and services from catalog with specified quantities and prices"
+      },
+      {
+        "type": "action",
+        "description": "Save the new quote"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify quote is saved and quote details including correct calculations are displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Edit Existing Quote and Validate Updated Calculations",
+    "description": "Verify editing a quote updates information and recalculates totals correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Quote Detail page for an existing quote"
+      },
+      {
+        "type": "action",
+        "description": "Modify materials, services, or quantities within the quote"
+      },
+      {
+        "type": "action",
+        "description": "Save the edited quote"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the updated quote details reflect the changes and calculations are correct"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "View Quote Details Displays Accurate Data",
+    "description": "Ensure that viewing quote details shows all correct information and calculations are accurate.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Quote Detail page for an existing quote"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all quote fields, materials, services and calculated totals are displayed correctly"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Add New Material Item",
+    "description": "Verify users can add a new material item to the materials catalog successfully and data is persisted.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Materials Management page"
+      },
+      {
+        "type": "action",
+        "description": "Add new material with valid name, description, unit price, and other required fields"
+      },
+      {
+        "type": "action",
+        "description": "Save the new material"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify material appears in material list and data persists after refreshing page"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Edit Existing Material Item",
+    "description": "Confirm that editing a material updates its information correctly and changes persist.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Materials Management page"
+      },
+      {
+        "type": "action",
+        "description": "Select an existing material and modify its fields (e.g., price or description)"
+      },
+      {
+        "type": "action",
+        "description": "Save changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify material list displays updated data and updates persist after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Remove Material Item",
+    "description": "Verify user can delete a material from materials catalog and it no longer appears in the list.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Materials Management page"
+      },
+      {
+        "type": "action",
+        "description": "Delete an existing material item"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm material is removed from the list and deletion persists after page refresh"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Add New Service Item",
+    "description": "Check that a new service can be added to the services catalog with valid data and persists correctly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Services Management page"
+      },
+      {
+        "type": "action",
+        "description": "Add new service with valid name, description and pricing details"
+      },
+      {
+        "type": "action",
+        "description": "Save the new service"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the new service shows in the service list and persists after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Edit Existing Service Item",
+    "description": "Verify editing an existing service updates its data correctly and changes persist.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Services Management page"
+      },
+      {
+        "type": "action",
+        "description": "Select a service and update its fields"
+      },
+      {
+        "type": "action",
+        "description": "Save changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm updated service data is shown and persists after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Remove Service Item",
+    "description": "Confirm that a user can delete a service item from the services list successfully.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Services Management page"
+      },
+      {
+        "type": "action",
+        "description": "Delete a selected service"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the service no longer appears in the list and deletion persists after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Update User Profile Successfully",
+    "description": "Verify users can update their profile information and changes persist after save.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Profile page"
+      },
+      {
+        "type": "action",
+        "description": "Modify user profile details such as name, contact info, or preferences"
+      },
+      {
+        "type": "action",
+        "description": "Save the profile changes"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm that updated profile details are displayed and persist after page reload"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Update Company Settings Successfully",
+    "description": "Ensure company settings can be modified and changes persist correctly.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to Company Settings page"
+      },
+      {
+        "type": "action",
+        "description": "Change company information and preferences"
+      },
+      {
+        "type": "action",
+        "description": "Save the settings"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that changes are reflected in the UI and persist after reload"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Application UI Responsiveness on Different Screen Sizes",
+    "description": "Validate that the UI adjusts appropriately and remains usable on various screen sizes including mobile, tablet, and desktop.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Access multiple pages such as Login, Dashboard, Quote Management, Materials, Services, and Settings on different screen sizes"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify UI components resize and rearrange correctly and remain functional without layout breaking"
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "UI Elements Follow TailwindCSS and shadcn/ui Styling Standards",
+    "description": "Ensure all UI elements conform to the specified styling standards consistently across the application.",
+    "category": "ui",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate through the application pages checking UI components"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify styling is consistent, uses TailwindCSS utility classes, and shadcn/ui components properly without visual glitches"
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Quote Creation with Edge Case Values",
+    "description": "Test quote creation with edge case input such as zero quantities, very large numbers, or special characters to check validation and calculation stability.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to New Quote page"
+      },
+      {
+        "type": "action",
+        "description": "Input edge case values for materials and services quantity and price fields"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to save the quote"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify appropriate validation messages appear or calculations handle these correctly without crashing"
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "Materials and Services Persistence After Concurrent Updates",
+    "description": "Simulate concurrent updates to materials or services records and verify that the system handles changes without data corruption.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Update a material or service record simultaneously in two separate sessions or browser tabs"
+      },
+      {
+        "type": "action",
+        "description": "Save the changes from both sessions sequentially"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data integrity is maintained and last saved data is consistent without errors"
+      }
+    ]
+  }
+]

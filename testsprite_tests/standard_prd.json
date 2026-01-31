@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "project": "Lovable Quotes Management Platform",
+    "date": "2026-01-21",
+    "prepared_by": "Software Development Manager"
+  },
+  "product_overview": "Lovable is a React and TypeScript based web platform designed to help businesses manage quotes, materials, services, and company profiles efficiently with authentication and dashboard functionalities.",
+  "core_goals": [
+    "Enable secure user authentication and registration.",
+    "Provide an intuitive dashboard as the main landing interface.",
+    "Facilitate creation, editing, and detailed viewing of business quotes with automatic calculations.",
+    "Manage materials and services catalog used in quotes.",
+    "Allow management of user profiles and company settings for personalized experience."
+  ],
+  "key_features": [
+    "User login and registration for secure access.",
+    "Dashboard serving as the main user interface on login.",
+    "Comprehensive quote management including new quote creation, editing, and detailed views.",
+    "Materials management for maintaining inventory or catalog of materials used in quotes.",
+    "Services management to maintain the list of services offered by the company.",
+    "Company settings and user profile management for customization of preferences and information."
+  ],
+  "user_flow_summary": [
+    "User registers or logs in to the platform via authentication pages.",
+    "Upon login, user lands on the dashboard as the main interface.",
+    "User navigates to quote management to create or edit quotes, and view quote details with calculations.",
+    "User manages materials and services separately to keep information up to date for quote generation.",
+    "User accesses company settings and profile pages to update preferences and personal information."
+  ],
+  "validation_criteria": [
+    "User must be able to register and login with valid credentials.",
+    "Dashboard must load successfully and display relevant summaries or quick links.",
+    "Users can create, edit, and view quotes accurately with all calculations reflecting correct business logic.",
+    "Materials and services can be added, edited, and removed correctly and persist changes.",
+    "Company settings and user profiles update successfully and persist preferences.",
+    "Application UI is responsive, accessible, and maintains consistent styling as per TailwindCSS and shadcn/ui standards."
+  ],
+  "code_summary": {
+    "tech_stack": [
+      "TypeScript",
+      "React",
+      "Vite",
+      "TailwindCSS",
+      "Shadcn/UI",
+      "Zustand",
+      "React Query",
+      "Supabase"
+    ],
+    "features": [
+      {
+        "name": "Authentication",
+        "description": "User login and registration functionality.",
+        "files": [
+          "src/pages/Login.tsx",
+          "src/pages/Register.tsx"
+        ]
+      },
+      {
+        "name": "Dashboard",
+        "description": "Main landing page/dashboard.",
+        "files": [
+          "src/pages/Index.tsx"
+        ]
+      },
+      {
+        "name": "Quote Management",
+        "description": "Creation, editing, and viewing of quotes (New Quote, Quote Details). Includes business logic for calculations.",
+        "files": [
+          "src/pages/NewQuote.tsx",
+          "src/pages/QuoteDetail.tsx",
+          "src/store/quotesStore.ts",
+          "src/services/quotesService.ts"
+        ]
+      },
+      {
+        "name": "Materials Management",
+        "description": "Managing the list of materials used in quotes.",
+        "files": [
+          "src/pages/Materials.tsx",
+          "src/store/materialsStore.ts",
+          "src/services/productsService.ts"
+        ]
+      },
+      {
+        "name": "Services Management",
+        "description": "Managing the list of services offered.",
+        "files": [
+          "src/pages/Services.tsx",
+          "src/store/servicesStore.ts"
+        ]
+      },
+      {
+        "name": "Company Settings & Profile",
+        "description": "Managing user profile and company settings/preferences.",
+        "files": [
+          "src/pages/Settings.tsx",
+          "src/pages/Profile.tsx",
+          "src/store/companyStore.ts",
+          "src/services/companyService.ts"
+        ]
+      }
+    ]
+  }
+}

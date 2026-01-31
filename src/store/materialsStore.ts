@@ -17,20 +17,23 @@ const defaultMaterials: Omit<DbProduct, 'id' | 'created_at'>[] = [
   { name: 'Gás R-410A (kg)', unit: 'kg', price: 150, category: 'Outros', type: 'product' },
   { name: 'Gás R-22 (kg)', unit: 'kg', price: 120, category: 'Outros', type: 'product' },
 
-  // Tubulação e tubo isolante
-  { name: 'Tubo de Cobre 1/4"', unit: 'm', price: 45, category: 'Tubulação e tubo isolante', type: 'product' },
-  { name: 'Tubo de Cobre 3/8"', unit: 'm', price: 60, category: 'Tubulação e tubo isolante', type: 'product' },
-  { name: 'Tubo de Cobre 1/2"', unit: 'm', price: 80, category: 'Tubulação e tubo isolante', type: 'product' },
-  { name: 'Tubo de Cobre 5/8"', unit: 'm', price: 100, category: 'Tubulação e tubo isolante', type: 'product' },
-  { name: 'Tubo de Cobre 3/4"', unit: 'm', price: 130, category: 'Tubulação e tubo isolante', type: 'product' },
-  { name: 'Isolamento Térmico', unit: 'm', price: 7, category: 'Tubulação e tubo isolante', type: 'product' },
+  // Tubulações
+  { name: 'Tubo de Cobre 1/4"', unit: 'm', price: 45, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 3/8"', unit: 'm', price: 60, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 1/2"', unit: 'm', price: 80, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 5/8"', unit: 'm', price: 100, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 3/4"', unit: 'm', price: 130, category: 'Tubulações', type: 'product' },
+
+  // Esponjoso e fitas
+  { name: 'Isolamento Térmico', unit: 'm', price: 7, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Fita Vinyl', unit: 'un', price: 15, category: 'Esponjoso e fitas', type: 'product' },
 
   // Cabos elétricos
   { name: 'Cabo PP 3x1.5mm', unit: 'm', price: 12, category: 'Cabos elétricos', type: 'product' },
 
-  // Suportes e fitas
-  { name: 'Suporte para Condensadora', unit: 'un', price: 90, category: 'Suportes e fitas', type: 'product' },
-  { name: 'Dreno Corrugado', unit: 'm', price: 8, category: 'Suportes e fitas', type: 'product' },
+  // Suportes e fitas -> Esponjoso e fitas (migrating default items)
+  { name: 'Suporte para Condensadora', unit: 'un', price: 90, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Dreno Corrugado', unit: 'm', price: 8, category: 'Esponjoso e fitas', type: 'product' },
 ];
 
 export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
@@ -41,7 +44,7 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
     set({ isLoading: true });
     try {
       let dbProducts = await ProductsService.getAll();
-      const materialsOnly = dbProducts.filter(p => p.type === 'product');
+      let materialsOnly = dbProducts.filter(p => p.type === 'product');
 
       // Auto-Seed if empty
       if (materialsOnly.length === 0) {
@@ -49,11 +52,50 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
         await ProductsService.seed(defaultMaterials);
         // Refetch after seed
         dbProducts = await ProductsService.getAll();
+        materialsOnly = dbProducts.filter(p => p.type === 'product');
+      }
+
+      // Migration: Update categories to new ones
+      let needsMigration = false;
+      const migratedMaterials = materialsOnly.map(p => {
+        let newCategory = p.category;
+        if (p.category === 'Tubulação e tubo isolante') {
+          // Detect if it's a tube or insulation
+          const lowerName = p.name.toLowerCase();
+          if (lowerName.includes('tubo') || lowerName.includes('cobre')) {
+            newCategory = 'Tubulações';
+          } else {
+            newCategory = 'Esponjoso e fitas';
+          }
+        } else if (p.category === 'Suportes e fitas') {
+          newCategory = 'Esponjoso e fitas';
+        }
+
+        if (newCategory !== p.category) {
+          needsMigration = true;
+          // We don't update DB here to avoid too many writes during fetch,
+          // but we map it locally. User can save it later or we can do it background.
+          return { ...p, category: newCategory };
+        }
+        return p;
+      });
+
+      // If we migrated something, let's update the DB in background for each
+      if (needsMigration) {
+        migratedMaterials.forEach(async (p) => {
+          const original = materialsOnly.find(o => o.id === p.id);
+          if (original && original.category !== p.category) {
+            try {
+              await ProductsService.update(p.id, { category: p.category });
+            } catch (err) {
+              console.error(`Failed to migrate category for ${p.name}`, err);
+            }
+          }
+        });
       }
 
       set({
-        materials: dbProducts
-          .filter(p => p.type === 'product')
+        materials: migratedMaterials
           .map(p => ({
             id: p.id,
             name: p.name,

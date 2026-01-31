@@ -1,0 +1,66 @@
+{
+    "tech_stack": [
+        "TypeScript",
+        "React",
+        "Vite",
+        "TailwindCSS",
+        "Shadcn/UI",
+        "Zustand",
+        "React Query",
+        "Supabase"
+    ],
+    "features": [
+        {
+            "name": "Authentication",
+            "description": "User login and registration functionality.",
+            "files": [
+                "src/pages/Login.tsx",
+                "src/pages/Register.tsx"
+            ]
+        },
+        {
+            "name": "Dashboard",
+            "description": "Main landing page/dashboard.",
+            "files": [
+                "src/pages/Index.tsx"
+            ]
+        },
+        {
+            "name": "Quote Management",
+            "description": "Creation, editing, and viewing of quotes (New Quote, Quote Details). Includes business logic for calculations.",
+            "files": [
+                "src/pages/NewQuote.tsx",
+                "src/pages/QuoteDetail.tsx",
+                "src/store/quotesStore.ts",
+                "src/services/quotesService.ts"
+            ]
+        },
+        {
+            "name": "Materials Management",
+            "description": "Managing the list of materials used in quotes.",
+            "files": [
+                "src/pages/Materials.tsx",
+                "src/store/materialsStore.ts",
+                "src/services/productsService.ts"
+            ]
+        },
+        {
+            "name": "Services Management",
+            "description": "Managing the list of services offered.",
+            "files": [
+                "src/pages/Services.tsx",
+                "src/store/servicesStore.ts"
+            ]
+        },
+        {
+            "name": "Company Settings & Profile",
+            "description": "Managing user profile and company settings/preferences.",
+            "files": [
+                "src/pages/Settings.tsx",
+                "src/pages/Profile.tsx",
+                "src/store/companyStore.ts",
+                "src/services/companyService.ts"
+            ]
+        }
+    ]
+}

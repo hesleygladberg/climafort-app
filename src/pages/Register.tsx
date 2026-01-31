@@ -56,6 +56,7 @@ export default function Register() {
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full h-11 px-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                             placeholder="seu@email.com"
+                            data-testid="register-email-input"
                         />
                     </div>
 
@@ -68,6 +69,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full h-11 px-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                             placeholder="••••••••"
+                            data-testid="register-password-input"
                         />
                         <p className="text-xs text-muted-foreground">Mínimo de 6 caracteres</p>
                     </div>
@@ -75,6 +77,7 @@ export default function Register() {
                     <button
                         type="submit"
                         disabled={loading}
+                        data-testid="register-submit-button"
                         className="w-full h-11 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
                     >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Criar Conta'}

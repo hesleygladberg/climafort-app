@@ -56,6 +56,7 @@ export default function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full h-11 px-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                             placeholder="seu@email.com"
+                            data-testid="login-email-input"
                         />
                     </div>
 
@@ -68,12 +69,14 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full h-11 px-3 rounded-lg border border-input bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
                             placeholder="••••••••"
+                            data-testid="login-password-input"
                         />
                     </div>
 
                     <button
                         type="submit"
                         disabled={loading}
+                        data-testid="login-submit-button"
                         className="w-full h-11 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
                     >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Entrar'}

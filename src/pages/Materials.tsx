@@ -101,9 +101,9 @@ export default function Materials() {
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="w-full h-12 px-3 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   >
-                    <option value="Tubulação e tubo isolante">Tubulação e tubo isolante</option>
+                    <option value="Tubulações">Tubulações</option>
+                    <option value="Esponjoso e fitas">Esponjoso e fitas</option>
                     <option value="Cabos elétricos">Cabos elétricos</option>
-                    <option value="Suportes e fitas">Suportes e fitas</option>
                     <option value="Outros">Outros</option>
                   </select>
                 </div>
@@ -180,7 +180,7 @@ export default function Materials() {
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <h4 className="font-medium text-foreground truncate">{material.name}</h4>
+                      <h4 className="font-medium text-foreground line-clamp-2">{material.name}</h4>
                       <span className="text-2xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
                         {material.unit}
                       </span>

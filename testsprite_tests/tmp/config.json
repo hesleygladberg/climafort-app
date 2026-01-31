@@ -1,0 +1,16 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:8080",
+  "executionArgs": {
+    "projectName": "climafort-app",
+    "projectPath": "c:\\Users\\hesle\\Documents\\climafort-app",
+    "testIds": [],
+    "additionalInstruction": "Tests should use data-testid attributes for selectors where available (e.g. [data-testid=\"register-submit-button\"]). Ensure registration test finds the button.",
+    "envs": {
+      "API_KEY": "sk-user-jTP8zArrQyTtU7FMm9YHPl0wie1sRkb3KOSY239D-_K7ztJGDf1cGaol7cPTNYG5JtLdF-wllezUy5rOJwKl_5OjKkxJB-Lk-T_pYz1IuN7O79t_cEAQAnXfuhJDX3hR1xE"
+    }
+  },
+  "proxy": "http://7c25abec-c88c-4fc3-b14a-f6bf2e801f66:ehFtmdP7wyIq2W0uwuedMUMKDdvxQa5f@tun.testsprite.com:8080"
+}
