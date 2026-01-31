@@ -4,9 +4,11 @@ import { Material, Service } from '@/types';
 // Shared interface for DB Product
 export interface DbProduct {
     id: string;
+    user_id?: string;
     name: string;
     description?: string;
     price: number;
+    cost: number;
     unit: string;
     category: string;
     type: 'product' | 'service';
@@ -27,7 +29,10 @@ export const ProductsService = {
     async create(product: Omit<DbProduct, 'id' | 'created_at'>): Promise<DbProduct> {
         const { data, error } = await supabase
             .from('products')
-            .insert(product)
+            .insert({
+                ...product,
+                user_id: (await supabase.auth.getUser()).data.user?.id
+            })
             .select()
             .single();
 

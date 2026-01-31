@@ -42,25 +42,30 @@ export const QuotesService = {
         const { data: newQuote, error: quoteError } = await supabase
             .from('quotes')
             .insert({
-                // number: quote.number, // let Supabase handle SERIAL
-                client_id: quote.clientId || null, // Optional connection
+                client_id: quote.clientId || null,
                 client_info: {
                     name: quote.clientName,
                     phone: quote.clientPhone,
                     address: quote.clientAddress,
-                    // ... other client fields
                 },
                 status: quote.status,
                 total: quote.total,
-                notes: quote.internalNotes
+                notes: quote.internalNotes,
+                // New Phase 2 columns
+                discount: quote.discount,
+                discount_type: quote.discountType,
+                subtotal_materials: quote.subtotalMaterials,
+                subtotal_services: quote.subtotalServices,
+                client_notes: quote.clientNotes,
+                validity_days: quote.validityDays,
+                payment_conditions: quote.paymentConditions
             })
             .select()
             .single();
 
         if (quoteError) throw quoteError;
 
-        // 2. Insert Items (Mixed types: material/service)
-        // We map frontend 'items' and 'services' to single 'quote_items' table
+        // 2. Insert Items
         const dbItems = [
             ...quote.items.map(i => ({
                 quote_id: newQuote.id,
@@ -71,8 +76,12 @@ export const QuotesService = {
                 type: 'material',
                 metadata: {
                     unit: i.unit,
+                    materialId: i.materialId,
                     isCopperTube: i.isCopperTube,
-                    copperWeightPerMeter: i.copperWeightPerMeter
+                    copperSize: i.copperSize,
+                    copperWeightPerMeter: i.copperWeightPerMeter,
+                    copperTotalWeight: i.copperTotalWeight,
+                    copperPricePerKg: i.copperPricePerKg
                 }
             })),
             ...quote.services.map(s => ({
@@ -82,7 +91,9 @@ export const QuotesService = {
                 unit_price: s.unitPrice,
                 total: s.price,
                 type: 'service',
-                metadata: {}
+                metadata: {
+                    serviceId: s.serviceId
+                }
             }))
         ];
 
@@ -94,24 +105,90 @@ export const QuotesService = {
             if (itemsError) throw itemsError;
         }
 
-        // Refetch to get complete object
         return QuotesService.getById(newQuote.id) as Promise<Quote>;
     },
 
     async update(id: string, quote: Partial<Quote>) {
-        // For MVP, we might just update main fields.
-        // Full update logic requires diffing items or delete-and-insert.
-        // Implementing basic status update for now.
+        // 1. Update main record
+        const updatePayload: any = {
+            updated_at: new Date().toISOString()
+        };
+
+        if (quote.status) updatePayload.status = quote.status;
+        if (quote.total !== undefined) updatePayload.total = quote.total;
+        if (quote.clientName) {
+            updatePayload.client_info = {
+                name: quote.clientName,
+                phone: quote.clientPhone,
+                address: quote.clientAddress
+            };
+        }
+        if (quote.discount !== undefined) updatePayload.discount = quote.discount;
+        if (quote.discountType !== undefined) updatePayload.discount_type = quote.discountType;
+        if (quote.subtotalMaterials !== undefined) updatePayload.subtotal_materials = quote.subtotalMaterials;
+        if (quote.subtotalServices !== undefined) updatePayload.subtotal_services = quote.subtotalServices;
+        if (quote.clientNotes !== undefined) updatePayload.client_notes = quote.clientNotes;
+        if (quote.validityDays !== undefined) updatePayload.validity_days = quote.validityDays;
+        if (quote.paymentConditions !== undefined) updatePayload.payment_conditions = quote.paymentConditions;
+
         const { error } = await supabase
             .from('quotes')
-            .update({
-                status: quote.status,
-                total: quote.total,
-                updated_at: new Date().toISOString()
-            })
+            .update(updatePayload)
             .eq('id', id);
 
         if (error) throw error;
+
+        // 2. Update items (Simple atomic replacement for MVP)
+        if (quote.items || quote.services) {
+            // Fetch current items to preserve them if only one array is provided
+            const currentQuote = await QuotesService.getById(id);
+            if (!currentQuote) return;
+
+            const finalMaterials = quote.items || currentQuote.items;
+            const finalServices = quote.services || currentQuote.services;
+
+            // Delete existing
+            await supabase.from('quote_items').delete().eq('quote_id', id);
+
+            // Re-insert
+            const dbItems = [
+                ...finalMaterials.map(i => ({
+                    quote_id: id,
+                    description: i.name,
+                    quantity: i.quantity,
+                    unit_price: i.unitPrice,
+                    total: i.total,
+                    type: 'material',
+                    metadata: {
+                        unit: i.unit,
+                        materialId: i.materialId,
+                        isCopperTube: i.isCopperTube,
+                        copperSize: i.copperSize,
+                        copperWeightPerMeter: i.copperWeightPerMeter,
+                        copperTotalWeight: i.copperTotalWeight,
+                        copperPricePerKg: i.copperPricePerKg
+                    }
+                })),
+                ...finalServices.map(s => ({
+                    quote_id: id,
+                    description: s.name,
+                    quantity: s.quantity,
+                    unit_price: s.unitPrice,
+                    total: s.price,
+                    type: 'service',
+                    metadata: {
+                        serviceId: s.serviceId
+                    }
+                }))
+            ];
+
+            if (dbItems.length > 0) {
+                const { error: itemsError } = await supabase
+                    .from('quote_items')
+                    .insert(dbItems);
+                if (itemsError) throw itemsError;
+            }
+        }
     },
 
     async delete(id: string) {
@@ -164,13 +241,13 @@ function mapSupabaseToQuote(dbQuote: any): Quote {
         internalNotes: dbQuote.notes || '',
         createdAt: dbQuote.created_at,
         updatedAt: dbQuote.updated_at,
-        // Defaults for missing columns in lightweight schema
-        discount: 0,
-        discountType: 'fixed',
-        subtotalMaterials: 0,
-        subtotalServices: 0,
-        clientNotes: '',
-        validityDays: 15,
-        paymentConditions: ''
+        // Phase 2 columns from DB
+        discount: Number(dbQuote.discount) || 0,
+        discountType: dbQuote.discount_type || 'fixed',
+        subtotalMaterials: Number(dbQuote.subtotal_materials) || 0,
+        subtotalServices: Number(dbQuote.subtotal_services) || 0,
+        clientNotes: dbQuote.client_notes || '',
+        validityDays: Number(dbQuote.validity_days) || 15,
+        paymentConditions: dbQuote.payment_conditions || ''
     };
 }

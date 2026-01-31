@@ -14,26 +14,26 @@ interface MaterialsStore {
 
 const defaultMaterials: Omit<DbProduct, 'id' | 'created_at'>[] = [
   // Outros
-  { name: 'Gás R-410A (kg)', unit: 'kg', price: 150, category: 'Outros', type: 'product' },
-  { name: 'Gás R-22 (kg)', unit: 'kg', price: 120, category: 'Outros', type: 'product' },
+  { name: 'Gás R-410A (kg)', unit: 'kg', price: 150, cost: 0, category: 'Outros', type: 'product' },
+  { name: 'Gás R-22 (kg)', unit: 'kg', price: 120, cost: 0, category: 'Outros', type: 'product' },
 
   // Tubulações
-  { name: 'Tubo de Cobre 1/4"', unit: 'm', price: 45, category: 'Tubulações', type: 'product' },
-  { name: 'Tubo de Cobre 3/8"', unit: 'm', price: 60, category: 'Tubulações', type: 'product' },
-  { name: 'Tubo de Cobre 1/2"', unit: 'm', price: 80, category: 'Tubulações', type: 'product' },
-  { name: 'Tubo de Cobre 5/8"', unit: 'm', price: 100, category: 'Tubulações', type: 'product' },
-  { name: 'Tubo de Cobre 3/4"', unit: 'm', price: 130, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 1/4"', unit: 'm', price: 45, cost: 0, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 3/8"', unit: 'm', price: 60, cost: 0, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 1/2"', unit: 'm', price: 80, cost: 0, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 5/8"', unit: 'm', price: 100, cost: 0, category: 'Tubulações', type: 'product' },
+  { name: 'Tubo de Cobre 3/4"', unit: 'm', price: 130, cost: 0, category: 'Tubulações', type: 'product' },
 
   // Esponjoso e fitas
-  { name: 'Isolamento Térmico', unit: 'm', price: 7, category: 'Esponjoso e fitas', type: 'product' },
-  { name: 'Fita Vinyl', unit: 'un', price: 15, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Isolamento Térmico', unit: 'm', price: 7, cost: 0, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Fita Vinyl', unit: 'un', price: 15, cost: 0, category: 'Esponjoso e fitas', type: 'product' },
 
   // Cabos elétricos
-  { name: 'Cabo PP 3x1.5mm', unit: 'm', price: 12, category: 'Cabos elétricos', type: 'product' },
+  { name: 'Cabo PP 3x1.5mm', unit: 'm', price: 12, cost: 0, category: 'Cabos elétricos', type: 'product' },
 
   // Suportes e fitas -> Esponjoso e fitas (migrating default items)
-  { name: 'Suporte para Condensadora', unit: 'un', price: 90, category: 'Esponjoso e fitas', type: 'product' },
-  { name: 'Dreno Corrugado', unit: 'm', price: 8, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Suporte para Condensadora', unit: 'un', price: 90, cost: 0, category: 'Esponjoso e fitas', type: 'product' },
+  { name: 'Dreno Corrugado', unit: 'm', price: 8, cost: 0, category: 'Esponjoso e fitas', type: 'product' },
 ];
 
 export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
@@ -102,7 +102,7 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
             unit: p.unit,
             price: p.price,
             category: p.category,
-            cost: 0 // Not persisted yet
+            cost: Number(p.cost) || 0
           }))
       });
     } catch (error) {
@@ -118,6 +118,7 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
         name: material.name,
         unit: material.unit,
         price: material.price,
+        cost: material.cost,
         category: material.category || 'Outros',
         type: 'product'
       });
@@ -129,7 +130,7 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
           unit: newProduct.unit,
           price: newProduct.price,
           category: newProduct.category,
-          cost: 0
+          cost: Number(newProduct.cost) || 0
         }]
       }));
     } catch (error) {
@@ -149,11 +150,11 @@ export const useMaterialsStore = create<MaterialsStore>((set, get) => ({
         name: data.name,
         unit: data.unit,
         price: data.price,
+        cost: data.cost,
         category: data.category
       });
     } catch (error) {
       console.error('Failed to update material:', error);
-      // Revert if needed (omitted for simplicity for now)
     }
   },
 
