@@ -3,27 +3,27 @@ export const COPPER_TUBE_WEIGHTS: Record<string, number> = {
   '1/4': 0.198,
   '1/4"': 0.198,
   '1/4\'': 0.198,
-  '3/8': 0.308,
-  '3/8"': 0.308,
-  '3/8\'': 0.308,
-  '1/2': 0.454,
-  '1/2"': 0.454,
-  '1/2\'': 0.454,
-  '5/8': 0.620,
-  '5/8"': 0.620,
-  '5/8\'': 0.620,
-  '3/4': 0.830,
-  '3/4"': 0.830,
-  '3/4\'': 0.830,
+  '3/8': 0.228,
+  '3/8"': 0.228,
+  '3/8\'': 0.228,
+  '1/2': 0.300,
+  '1/2"': 0.300,
+  '1/2\'': 0.300,
+  '5/8': 0.420,
+  '5/8"': 0.420,
+  '5/8\'': 0.420,
+  '3/4': 0.530,
+  '3/4"': 0.530,
+  '3/4\'': 0.530,
 };
 
 // Lista de bitolas disponíveis para seleção
 export const COPPER_TUBE_SIZES = [
   { value: '1/4"', label: '1/4"', weightPerMeter: 0.198 },
-  { value: '3/8"', label: '3/8"', weightPerMeter: 0.308 },
-  { value: '1/2"', label: '1/2"', weightPerMeter: 0.454 },
-  { value: '5/8"', label: '5/8"', weightPerMeter: 0.620 },
-  { value: '3/4"', label: '3/4"', weightPerMeter: 0.830 },
+  { value: '3/8"', label: '3/8"', weightPerMeter: 0.228 },
+  { value: '1/2"', label: '1/2"', weightPerMeter: 0.300 },
+  { value: '5/8"', label: '5/8"', weightPerMeter: 0.420 },
+  { value: '3/4"', label: '3/4"', weightPerMeter: 0.530 },
 ];
 
 /**
