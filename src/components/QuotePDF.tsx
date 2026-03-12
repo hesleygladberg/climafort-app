@@ -238,9 +238,18 @@ export function QuotePDF({ quote, company }: QuotePDFProps) {
           <View style={styles.clientInfo}>
             <Text style={styles.clientName}>{quote.clientName || 'Não informado'}</Text>
             {quote.clientPhone && <Text style={styles.clientDetail}>Tel: {quote.clientPhone}</Text>}
-            {quote.clientAddress && <Text style={styles.clientDetail}>Endereço: {quote.clientAddress}</Text>}
           </View>
         </View>
+
+        {/* Service Description */}
+        {quote.serviceDescription && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>DESCRIÇÃO DOS SERVIÇOS</Text>
+            <View style={styles.infoBox}>
+              <Text style={styles.infoText}>{quote.serviceDescription}</Text>
+            </View>
+          </View>
+        )}
 
         {/* Materials */}
         {quote.items.length > 0 && (

@@ -47,6 +47,7 @@ export const QuotesService = {
                     name: quote.clientName,
                     phone: quote.clientPhone,
                     address: quote.clientAddress,
+                    service_description: quote.serviceDescription,
                 },
                 status: quote.status,
                 total: quote.total,
@@ -109,6 +110,9 @@ export const QuotesService = {
     },
 
     async update(id: string, quote: Partial<Quote>) {
+        const currentQuote = await QuotesService.getById(id);
+        if (!currentQuote) return;
+
         // 1. Update main record
         const updatePayload: any = {
             updated_at: new Date().toISOString()
@@ -116,11 +120,12 @@ export const QuotesService = {
 
         if (quote.status) updatePayload.status = quote.status;
         if (quote.total !== undefined) updatePayload.total = quote.total;
-        if (quote.clientName) {
+        if (quote.clientName || quote.serviceDescription !== undefined) {
             updatePayload.client_info = {
-                name: quote.clientName,
-                phone: quote.clientPhone,
-                address: quote.clientAddress
+                name: quote.clientName || currentQuote.clientName,
+                phone: quote.clientPhone || currentQuote.clientPhone,
+                address: quote.clientAddress || currentQuote.clientAddress,
+                service_description: quote.serviceDescription !== undefined ? quote.serviceDescription : currentQuote.serviceDescription
             };
         }
         if (quote.discount !== undefined) updatePayload.discount = quote.discount;
@@ -140,10 +145,6 @@ export const QuotesService = {
 
         // 2. Update items (Simple atomic replacement for MVP)
         if (quote.items || quote.services) {
-            // Fetch current items to preserve them if only one array is provided
-            const currentQuote = await QuotesService.getById(id);
-            if (!currentQuote) return;
-
             const finalMaterials = quote.items || currentQuote.items;
             const finalServices = quote.services || currentQuote.services;
 
@@ -247,6 +248,7 @@ function mapSupabaseToQuote(dbQuote: any): Quote {
         subtotalMaterials: Number(dbQuote.subtotal_materials) || 0,
         subtotalServices: Number(dbQuote.subtotal_services) || 0,
         clientNotes: dbQuote.client_notes || '',
+        serviceDescription: dbQuote.client_info?.service_description || '',
         validityDays: Number(dbQuote.validity_days) || 15,
         paymentConditions: dbQuote.payment_conditions || ''
     };

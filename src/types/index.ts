@@ -80,6 +80,7 @@ export interface Quote {
   total: number;
   internalNotes: string;
   clientNotes: string;
+  serviceDescription: string;
   validityDays: number;
   paymentConditions: string;
   createdAt: string;

@@ -49,6 +49,7 @@ export default function NewQuote() {
   const [discount, setDiscount] = useState(0);
   const [discountType, setDiscountType] = useState<'fixed' | 'percentage'>('fixed');
   const [clientNotes, setClientNotes] = useState('');
+  const [serviceDescription, setServiceDescription] = useState('');
   const [validityDays, setValidityDays] = useState(15);
   const [paymentConditions, setPaymentConditions] = useState('À vista ou em até 3x no cartão');
 
@@ -70,6 +71,7 @@ export default function NewQuote() {
         : existingQuote.discount);
       setDiscountType(existingQuote.discountType);
       setClientNotes(existingQuote.clientNotes);
+      setServiceDescription(existingQuote.serviceDescription || '');
       setValidityDays(existingQuote.validityDays);
       setPaymentConditions(existingQuote.paymentConditions);
     }
@@ -290,6 +292,7 @@ export default function NewQuote() {
           subtotalServices,
           total,
           clientNotes,
+          serviceDescription,
           validityDays,
           paymentConditions,
         }
@@ -321,6 +324,7 @@ export default function NewQuote() {
         total,
         internalNotes: '',
         clientNotes,
+        serviceDescription,
         validityDays,
         paymentConditions,
       }, {
@@ -413,6 +417,16 @@ export default function NewQuote() {
                     onChange={(e) => setClientAddress(e.target.value)}
                     placeholder="Rua, número, bairro"
                     className="w-full h-12 px-4 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-foreground mb-1.5 block">Descrição dos Serviços</label>
+                  <textarea
+                    value={serviceDescription}
+                    onChange={(e) => setServiceDescription(e.target.value)}
+                    placeholder="Descreva aqui o que será feito..."
+                    rows={4}
+                    className="w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                   />
                 </div>
               </div>
